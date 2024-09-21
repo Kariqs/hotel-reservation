@@ -1,0 +1,19 @@
+{
+  "name": "hotel-reservation",
+  "version": "1.0.0",
+  "description": "This is a website for hotel reservation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kariqs/hotel-reservation.git"
+  },
+  "author": "Benard Kariuki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kariqs/hotel-reservation/issues"
+  },
+  "homepage": "https://github.com/Kariqs/hotel-reservation#readme"
+}
