@@ -1,3 +1,3 @@
 export const getDashboard = (req, res) => {
-  res.render("index");
+  res.render("base/dashboard");
 };

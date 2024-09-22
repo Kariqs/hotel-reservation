@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs',{title:"Dashboard"}) %>
+</head>
+
+<body class="w-screen h-screen flex flex-col bg-white font-myfont">
+    <div class="fixed h-10 w-full m-0 p-0">
+        <%- include('../includes/header.ejs') %>
+    </div>
+    <div class="mt-14 sm:mt-44 w-full p-0 m-0">
+        <main class="w-full">
+            <div class="bg-gray-50 w-full sm:w-4/5 lg:w-3/5 m-auto p-6 rounded-md">
+                <h6 class="text-green-600 uppercase text-center sm:text-3xl font-light leading-tight">
+                    Welcome to <br>
+                    <span class="text-rose-500 font-semibold">Comfy Inn Eldoret</span>
+                </h6>
+                <p class="text-center text-xl sm:text-2xl text-rose-400 font-light italic leading-relaxed mt-4">
+                    Comfy Inn Eldoret is renowned for its convenient and strategic location in the heart of Eldoret
+                    town, offering
+                    affordable prices while maintaining a high level of personal service. We take pride in providing our
+                    guests
+                    with a luxurious experience.
+                    <br><br>
+                    Comfy Inn Eldoret features 96 exclusive rooms with modern facilities, 3 conference halls, a
+                    restaurant, and
+                    secure private underground parking.
+                </p>
+            </div>
+            <div id="rooms" class="bg-white w-full sm:w-4/5 lg:w-3/5 m-auto p-6 rounded-md mt-8">
+                <h2 class="text-center text-green-600 uppercase text-3xl font-semibold mb-6">Our Rooms</h2>
+
+                <!-- Cards Container -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Deluxe Room Card -->
+                    <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden">
+                        <img src="/assets/deluxe-room.webp" alt="Deluxe Room" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-green-600">Deluxe Room</h3>
+                            <p class="mt-2 text-gray-600">A luxurious room with modern amenities, spacious interiors,
+                                and a cozy atmosphere perfect for relaxation.</p>
+                            <!-- Room Info Button -->
+                            <div class="mt-4">
+                                <a href="#"
+                                    class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                                    Room Info <span class="ml-2">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Standard Room Card -->
+                    <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden">
+                        <img src="/assets/double-room.webp" alt="Standard Room" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-green-600">Standard Room</h3>
+                            <p class="mt-2 text-gray-600">Comfortable and affordable, the Standard Room offers all the
+                                essential amenities for a pleasant stay.</p>
+                            <!-- Room Info Button -->
+                            <div class="mt-4">
+                                <a href="#"
+                                    class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                                    Room Info <span class="ml-2">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Twin Room Card -->
+                    <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden">
+                        <img src="/assets/twin-room.webp" alt="Twin Room" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-green-600">Twin Room</h3>
+                            <p class="mt-2 text-gray-600">Ideal for friends or family, the Twin Room offers two
+                                comfortable beds with ample space.</p>
+                            <!-- Room Info Button -->
+                            <div class="mt-4">
+                                <a href="#"
+                                    class="inline-flex items-center text-green-600 hover:text-green-800 font-medium">
+                                    Room Info <span class="ml-2">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Restaurant and Conference Rooms Section -->
+            <div class="bg-white w-full sm:w-4/5 lg:w-3/5 m-auto p-6 rounded-md mt-12">
+                <h2 class="text-center text-green-600 uppercase text-3xl font-semibold mb-6">Our Facilities</h2>
+
+                <!-- Cards Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                    <!-- Restaurant Card -->
+                    <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden">
+                        <img src="/assets/restaurant.webp" alt="Restaurant" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-green-600">Restaurant</h3>
+                            <p class="mt-2 text-gray-600">
+                                Our on-site restaurant offers a variety of exquisite cuisines, from local to
+                                international dishes, served in a relaxing and elegant setting.
+                            </p>
+                            <!-- Learn More Button -->
+                            <div class="mt-4">
+                                <a href="#"
+                                    class="inline-flex items-center bg-green-600 text-white hover:bg-green-800 px-4 py-2 rounded font-medium">
+                                    Learn More <span class="ml-2">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conference Rooms Card -->
+                    <div class="bg-gray-100 rounded-lg shadow-md overflow-hidden">
+                        <img src="/assets/conference.webp" alt="Conference Room" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-green-600">Conference Rooms</h3>
+                            <p class="mt-2 text-gray-600">
+                                We offer state-of-the-art conference rooms equipped with modern facilities, perfect for
+                                business meetings, seminars, and events.
+                            </p>
+                            <!-- Learn More Button -->
+                            <div class="mt-4">
+                                <a href="#"
+                                    class="inline-flex items-center bg-green-600 text-white hover:bg-green-800 px-4 py-2 rounded font-medium">
+                                    Learn More <span class="ml-2">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
