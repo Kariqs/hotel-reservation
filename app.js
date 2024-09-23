@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import base_routes from "./routes/base-routes.js";
+import admin_routes from "./routes/admin-routes.js";
 import mongoose from "mongoose";
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(base_routes);
+app.use("/admin", admin_routes);
 
 async function startServer(port, mongo_uri) {
   try {
