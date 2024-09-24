@@ -24,7 +24,7 @@ function showToast(message, type) {
   }, 3000);
 }
 
-//submit room data
+//Submit room data
 document
   .getElementById("roomsForm")
   .addEventListener("submit", async function (e) {
@@ -34,6 +34,8 @@ document
       type: formData.get("roomType"),
       single: formData.get("singlePrice"),
       double: formData.get("doublePrice"),
+      total: formData.get("totalRooms"),
+      url: formData.get("imageUrl"),
     };
     try {
       const response = await fetch("/admin/rooms/add", {

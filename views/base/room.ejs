@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs', { title: "Room" }) %>
+</head>
+
+<body class="w-screen h-screen flex flex-col bg-white font-myfont">
+    <div class="fixed h-10 w-full m-0 p-0">
+        <%- include('../includes/header.ejs') %>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mt-14 sm:mt-24 lg:mt-32 w-full px-4 lg:px-0">
+        <main class="w-full">
+            <!-- Room Image -->
+            <div class="w-full sm:w-4/5 lg:w-3/5 m-auto rounded-md overflow-hidden mb-8">
+                <img src="<%= room.imageUrl %>" alt="Deluxe Room" class="w-full h-64 sm:h-80 object-cover">
+            </div>
+
+            <!-- Room Description Section -->
+            <div class="bg-gray-50 w-full sm:w-4/5 lg:w-3/5 m-auto p-4 sm:p-6 rounded-md">
+                <h1
+                    class="text-green-600 uppercase text-center text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
+
+                    <span>
+                        <%= room.roomtype %>
+                    </span> Room
+                </h1>
+                <p
+                    class="text-center text-lg sm:text-xl lg:text-2xl text-rose-400 font-light italic leading-relaxed mt-4">
+                    Experience luxurious comfort in our <span>
+                        <%= room.roomtype %>
+                    </span> Room, featuring modern amenities, spacious interiors, and
+                    elegant design perfect for relaxation and convenience.
+                </p>
+
+                <!-- Pricing Section -->
+                <div class="mt-8">
+                    <h2 class="text-center text-green-600 uppercase text-xl sm:text-2xl lg:text-3xl font-semibold mb-6">
+                        Room Rates</h2>
+
+                    <div
+                        class="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8">
+                        <!-- Single Room Price -->
+                        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3">
+                            <h3 class="text-center text-xl sm:text-2xl text-green-600 font-semibold">Single Occupancy
+                            </h3>
+                            <p class="text-center text-gray-600 mt-2">Perfect for solo travelers, enjoy luxury and
+                                comfort at an affordable rate.</p>
+                            <p class="text-center text-2xl sm:text-3xl text-rose-500 font-semibold mt-4">KES.<%=
+                                    room.singlePrice %> per night
+                            </p>
+                        </div>
+
+                        <!-- Double Room Price -->
+                        <% if (room.doublePrice) { %>
+                            <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md w-full sm:w-1/2 lg:w-1/3">
+                                <h3 class="text-center text-xl sm:text-2xl text-green-600 font-semibold">Double
+                                    Occupancy
+                                </h3>
+                                <p class="text-center text-gray-600 mt-2">Ideal for couples or two guests, offering
+                                    comfort
+                                    and space for a relaxing stay.</p>
+                                <p class="text-center text-2xl sm:text-3xl text-rose-500 font-semibold mt-4">KES.<%=
+                                        room.doublePrice %> per night
+                                </p>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+
+                <!-- Room Features Section -->
+                <div class="mt-12">
+                    <h2 class="text-center text-green-600 uppercase text-xl sm:text-2xl lg:text-3xl font-semibold mb-6">
+                        Room Features</h2>
+                    <ul class="list-disc pl-4 sm:pl-8 text-base sm:text-lg lg:text-xl text-gray-700 space-y-2">
+                        <% if (room.roomtype==="Twin" ) { %>
+                            <li>Two queen-sized bed with luxury linens</li>
+                            <% } %>
+                                <% if (room.roomtype==="Deluxe" || room.roomtype==="Standard" ) { %>
+                                    <li>King-sized bed with luxury linens</li>
+                                    <% } %>
+                                        <li>Private bathroom with shower and complimentary toiletries</li>
+                                        <li>Flat-screen TV with satellite channels</li>
+                                        <li>Complimentary high-speed Wi-Fi</li>
+                                        <li>In-room safe and minibar</li>
+                                        <li>Room service available 24/7</li>
+                                        <li>Air conditioning and heating</li>
+                                        <li>Work desk and seating area</li>
+                    </ul>
+                </div>
+
+                <!-- Booking Form Section -->
+                <div class="mt-12">
+                    <h2 class="text-center text-green-600 uppercase text-xl sm:text-2xl lg:text-3xl font-semibold mb-6">
+                        Book Your Stay</h2>
+
+                    <form action="/book-room" method="POST"
+                        class="w-full sm:w-4/5 lg:w-3/5 m-auto bg-white p-4 sm:p-6 rounded-md shadow-md">
+                        <!-- Name -->
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-semibold mb-2">Full Name:</label>
+                            <input type="text" id="name" name="name" required
+                                class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address:</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="mb-6">
+                            <label for="phone" class="block text-gray-700 font-semibold mb-2">Phone Number:</label>
+                            <input type="text" id="phone" name="phone" required
+                                class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                        </div>
+
+                        <!-- Room Type (Single or Double) -->
+                        <% if (room.doublePrice) { %>
+                            <div class="mb-6">
+                                <label for="roomType" class="block text-gray-700 font-semibold mb-2">Room Type:</label>
+                                <select id="roomType" name="roomType" required
+                                    class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500">
+                                    <option value="single">Single Occupancy</option>
+                                    <option value="double">Double Occupancy</option>
+                                </select>
+                            </div>
+                            <% } %>
+
+                                <!-- Arrival Date -->
+                                <div class="mb-6">
+                                    <label for="arrivalDate" class="block text-gray-700 font-semibold mb-2">Date of
+                                        Arrival:</label>
+                                    <input type="date" id="arrivalDate" name="arrivalDate" required
+                                        class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                                </div>
+
+                                <!-- Departure Date -->
+                                <div class="mb-6">
+                                    <label for="departureDate" class="block text-gray-700 font-semibold mb-2">Date of
+                                        Departure:</label>
+                                    <input type="date" id="departureDate" name="departureDate" required
+                                        class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit"
+                                        class="inline-flex items-center bg-green-600 text-white hover:bg-green-800 px-6 py-3 rounded-md text-lg sm:text-xl font-medium transition duration-300">
+                                        Book Now <span class="ml-2">→</span>
+                                    </button>
+                                </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

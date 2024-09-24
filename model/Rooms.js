@@ -11,6 +11,13 @@ const roomsSchema = new Schema({
   },
   doublePrice: {
     type: Number,
+  },
+  totalRooms: {
+    type: Number,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
     required: true,
   },
 });
