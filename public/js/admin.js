@@ -56,3 +56,36 @@ document
       console.log("An error occured:", error);
     }
   });
+
+//Submit room data
+document
+  .getElementById("confForm")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = {
+      confname: formData.get("confname"),
+      capacity: formData.get("capacity"),
+      charges: formData.get("cost"),
+      confdesc:formData.get("confdesc"),
+      url: formData.get("confImage"),
+    };
+    try {
+      const response = await fetch("/admin/conference/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        showToast(result.message, "success");
+      } else {
+        showToast("Error adding conference room", "error");
+      }
+    } catch (error) {
+      console.log("An error occured:", error);
+    }
+  });

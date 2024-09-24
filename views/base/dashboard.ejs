@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../includes/head.ejs',{title:"Dashboard"}) %>
+        <script src="/js/base.js" defer></script>
 </head>
 
 <body class="w-screen h-screen flex flex-col bg-white font-myfont">
@@ -13,10 +14,10 @@
         <main class="w-full">
             <div class="bg-gray-50 w-full sm:w-4/5 lg:w-3/5 m-auto p-6 rounded-md">
                 <h6 class="text-green-600 uppercase text-center sm:text-3xl font-light leading-tight">
-                    Welcome to <br>
-                    <span class="text-rose-500 font-semibold">Comfy Inn Eldoret</span>
+                    <span class="text-blue-400" id="greet"></span><br>Welcome to <span class="text-rose-500 font-semibold">Comfy Inn
+                        Eldoret</span>
                 </h6>
-                <p class="text-center text-xl sm:text-2xl text-rose-400 font-light italic leading-relaxed mt-4">
+                <p class="text-center text-xl sm:text-2xl text-gray-600 font-light uppercase mt-4">
                     Comfy Inn Eldoret is renowned for its convenient and strategic location in the heart of Eldoret
                     town, offering
                     affordable prices while maintaining a high level of personal service. We take pride in providing our
@@ -123,7 +124,7 @@
                             </p>
                             <!-- Learn More Button -->
                             <div class="mt-4">
-                                <a href="#"
+                                <a href="/conference-rooms"
                                     class="inline-flex items-center bg-green-600 text-white hover:bg-green-800 px-4 py-2 rounded font-medium">
                                     Learn More <span class="ml-2">→</span>
                                 </a>

@@ -74,7 +74,7 @@
         <!-- Room Management Section -->
         <section id="roomsSection" class="section">
             <h2 class="text-2xl font-semibold mb-6">Room Management</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6">
                 <!-- Form to Add/Update Rooms -->
                 <div class="bg-white p-4 rounded-md shadow-lg">
                     <h3 class="text-xl font-semibold mb-4">Add Room and Prices</h3>
@@ -106,7 +106,7 @@
                             <input type="number" id="totalRooms" name="totalRooms"
                                 class="block w-full mt-2 border rounded-md p-2">
                         </div>
-                        
+
                         <div class="mb-2">
                             <label for="imageUrl" class="block text-lg font-medium text-gray-700">Room Image Url</label>
                             <input type="text" id="imageUrl" name="imageUrl"
@@ -121,23 +121,134 @@
             </div>
         </section>
 
-
+        <!-- View All Rooms Section -->
+        <section id="viewRoomsSection" class="section hidden">
+            <h2 class="text-2xl font-semibold mb-6">All Rooms</h2>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <h3 class="text-xl font-semibold mb-4">List of Available Rooms</h3>
+                <table class="w-full text-left">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Room Type</th>
+                            <th class="p-2">Room Price</th>
+                            <th class="p-2">Price for Two</th>
+                            <th class="p-2">Number of Rooms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through existing rooms -->
+                        <% rooms.forEach(room=> { %>
+                            <tr class="border-b">
+                                <td class="p-2">
+                                    <%= room.roomtype %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.singlePrice %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.doublePrice || 'N/A' %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.totalRooms %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- View All Rooms Section -->
+        <section id="viewRoomsSection" class="section hidden">
+            <h2 class="text-2xl font-semibold mb-6">All Rooms</h2>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <h3 class="text-xl font-semibold mb-4">List of Available Rooms</h3>
+                <table class="w-full text-left">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Room Type</th>
+                            <th class="p-2">Room Price</th>
+                            <th class="p-2">Price for Two</th>
+                            <th class="p-2">Number of Rooms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through existing rooms -->
+                        <% rooms.forEach(room=> { %>
+                            <tr class="border-b">
+                                <td class="p-2">
+                                    <%= room.roomtype %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.singlePrice %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.doublePrice || 'N/A' %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.totalRooms %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <h3 class="text-xl font-semibold mb-4">List of Available Rooms</h3>
+                <table class="w-full text-left">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Room Type</th>
+                            <th class="p-2">Room Price</th>
+                            <th class="p-2">Price for Two</th>
+                            <th class="p-2">Number of Rooms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through existing rooms -->
+                        <% rooms.forEach(room=> { %>
+                            <tr class="border-b">
+                                <td class="p-2">
+                                    <%= room.roomtype %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.singlePrice %>
+                                </td>
+                                <td class="p-2">Ksh <%= room.doublePrice || 'N/A' %>
+                                </td>
+                                <td class="p-2"><%= room.totalRooms %></td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
         <!-- Conference Room Management Section -->
         <section id="conferenceSection" class="section hidden">
             <h2 class="text-2xl font-semibold mb-6">Conference Room Management</h2>
             <div class="bg-white p-6 rounded-md shadow-md">
                 <h3 class="text-xl font-semibold mb-4">Add Conference Room</h3>
-                <form action="/admin/conference/add" method="POST">
+                <form action="/admin/conference/add" id="confForm" method="POST">
                     <div class="mb-4">
-                        <label for="conferenceName" class="block text-lg font-medium text-gray-700">Conference Room
+                        <label for="confname" class="block text-lg font-medium text-gray-700">Conference Room
                             Name</label>
-                        <input type="text" id="conferenceName" name="conferenceName"
+                        <input type="text" id="confname" name="confname" class="block w-full mt-2 border rounded-md p-2"
+                            required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="capacity" class="block text-lg font-medium text-gray-700">Conference Room Capacity</label>
+                        <input type="number" id="capacity" name="capacity"
                             class="block w-full mt-2 border rounded-md p-2" required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="capacity" class="block text-lg font-medium text-gray-700">Capacity</label>
-                        <input type="number" id="capacity" name="capacity"
+                        <label for="cost" class="block text-lg font-medium text-gray-700">Conference Room Charges</label>
+                        <input type="number" id="cost" name="cost" class="block w-full mt-2 border rounded-md p-2"
+                            required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confdesc" class="block text-lg font-medium text-gray-700">Conference Room Description</label>
+                        <input type="text" id="confdesc" name="confdesc"
+                            class="block w-full mt-2 border rounded-md p-2" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confImage" class="block text-lg font-medium text-gray-700">Conference Room Image Url</label>
+                        <input type="text" id="confImage" name="confImage"
                             class="block w-full mt-2 border rounded-md p-2" required>
                     </div>
 

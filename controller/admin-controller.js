@@ -1,6 +1,13 @@
 import Rooms from "../model/Rooms.js";
-export const getAdmin = (req, res) => {
-  res.render("admin/admin-dashboard");
+import Conferences from "../model/Conference.js";
+export const getAdmin = async (req, res) => {
+  try {
+    const rooms = await Rooms.find();
+    res.render("admin/admin-dashboard", { rooms: rooms });
+  } catch (error) {
+    console.log("An error occured:" + error);
+    res.status(500).json({ error: "Unabe to fetch the rooms." });
+  }
 };
 
 export const addRoom = async (req, res) => {
@@ -8,10 +15,17 @@ export const addRoom = async (req, res) => {
   if (type === "Twin Room") {
     double = undefined;
   }
-  if (!type || !single || !total || !url) {
-    return res.status(400).json({ error: "Please provide all room details." });
-  }
+
   try {
+    if (!type || !single || !total || !url) {
+      return res
+        .status(400)
+        .json({ error: "Please provide all room details." });
+    }
+    const isAlreadySaved = await Rooms.findOne({ roomtype: type });
+    if (isAlreadySaved) {
+      return res.status(409).json({ error: "The room is already saved." });
+    }
     const room = new Rooms({
       roomtype: type,
       singlePrice: single,
@@ -26,6 +40,38 @@ export const addRoom = async (req, res) => {
     });
   } catch (error) {
     console.error("Error saving room:", error);
+    return res
+      .status(500)
+      .json({ error: "Failed to add room. Try again later." });
+  }
+};
+
+export const addConferenceRoom = async (req, res) => {
+  const { confname, capacity, charges, confdesc, url } = req.body;
+  try {
+    if (!confname || !capacity || !confdesc || !charges || !url) {
+      return res.status(400).json({ error: "Kindly fill in all the fields." });
+    }
+    const isAlreadySaved = await Conferences.findOne({ name: confname });
+    if (isAlreadySaved) {
+      return res
+        .status(409)
+        .json({ error: "The conference room is already saved." });
+    }
+    const conference = new Conferences({
+      name: confname,
+      capacity: capacity,
+      charges: charges,
+      description: confdesc,
+      imageUrl: url,
+    });
+    const savedConference = await conference.save();
+    res.status(201).json({
+      message: "Conference room added successfully.",
+      conference: savedConference,
+    });
+  } catch (error) {
+    console.log("Error saving confernce room:", error);
     return res
       .status(500)
       .json({ error: "Failed to add room. Try again later." });

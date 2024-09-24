@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../includes/head.ejs', { title: "Conference Rooms" }) %>
+</head>
+
+<body class="w-screen h-screen flex flex-col bg-white font-myfont">
+    <div class="fixed h-10 w-full m-0 p-0">
+        <%- include('../includes/header.ejs') %>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mt-14 sm:mt-24 lg:mt-32 w-full px-4 lg:px-0">
+        <main class="w-full">
+            <!-- Conference Rooms Section -->
+            <div class="w-full sm:w-4/5 lg:w-3/5 m-auto rounded-md overflow-hidden mb-8 space-y-8">
+                <!-- Conference Room Cards -->
+                <% conferenceRooms.forEach(room=> { %>
+                    <div class="bg-gray-50 w-full p-4 sm:p-6 rounded-md shadow-md">
+                        <!-- Room Image -->
+                        <div class="w-full rounded-md overflow-hidden mb-4">
+                            <img src="<%= room.imageUrl %>" alt="<%= room.name %>" class="w-full h-64 object-cover">
+                        </div>
+
+                        <!-- Room Details -->
+                        <h2
+                            class="text-green-600 text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-center uppercase">
+                            Room <%= room.name %>
+                        </h2>
+                        <p class="text-start text-lg sm:text-xl lg:text-2xl text-gray-600 font-light mt-4">
+                            <%= room.description %>
+                        </p>
+
+                        <!-- Charges and Capacity -->
+                        <div class="flex flex-col items-start space-y-2">
+                            <p class="text-green-600 text-xl sm:text-2xl font-semibold">Charges: KES. <%= room.charges
+                                    %> per head per day</p>
+                            <p class="text-rose-400 text-xl sm:text-2xl">Capacity: <%= room.capacity %> heads</p>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <!-- Booking Form Section -->
+            <div class="bg-white w-full sm:w-4/5 lg:w-3/5 m-auto mt-12 p-4 sm:p-6 rounded-md shadow-md">
+                <h3 class="text-green-600 text-xl sm:text-2xl lg:text-3xl font-semibold mb-6 text-center">
+                    Book a Conference Room
+                </h3>
+
+                <form action="/book-conference" method="POST">
+                    <!-- Select Conference Room -->
+                    <div class="mb-6">
+                        <label for="roomSelect" class="block text-gray-700 font-semibold mb-2">Select Conference
+                            Room:</label>
+                        <select id="roomSelect" name="roomName" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500">
+                            <% conferenceRooms.forEach(room=> { %>
+                                <option value="<%= room.name %>">
+                                    <%= room.name %> (Capacity: <%= room.capacity %> heads)
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+
+                    <!-- Date of Arrival -->
+                    <div class="mb-6">
+                        <label for="arrivalDate" class="block text-gray-700 font-semibold mb-2">Date of
+                            Check-in:</label>
+                        <input type="date" id="arrivalDate" name="arrivalDate" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                    </div>
+
+                    <!-- Date of Departure -->
+                    <div class="mb-6">
+                        <label for="departureDate" class="block text-gray-700 font-semibold mb-2">Date of
+                            Check-out:</label>
+                        <input type="date" id="departureDate" name="departureDate" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                    </div>
+
+                    <!-- Check-in Time -->
+                    <div class="mb-6">
+                        <label for="checkinTime" class="block text-gray-700 font-semibold mb-2">Check-in Time:</label>
+                        <input type="time" id="checkinTime" name="checkinTime" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                    </div>
+
+                    <!-- Check-out Time -->
+                    <div class="mb-6">
+                        <label for="checkoutTime" class="block text-gray-700 font-semibold mb-2">Check-out Time:</label>
+                        <input type="time" id="checkoutTime" name="checkoutTime" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                    </div>
+
+                    <!-- Organization Name -->
+                    <div class="mb-6">
+                        <label for="organizationName" class="block text-gray-700 font-semibold mb-2">Organization
+                            Name:</label>
+                        <input type="text" id="organizationName" name="organizationName" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-6">
+                        <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address:</label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit"
+                            class="inline-flex items-center bg-green-600 text-white hover:bg-green-800 px-6 py-3 rounded-md text-lg sm:text-xl font-medium transition duration-300">
+                            Book Now <span class="ml-2">→</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
