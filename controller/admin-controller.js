@@ -31,6 +31,7 @@ export const addRoom = async (req, res) => {
       singlePrice: single,
       doublePrice: double,
       totalRooms: total,
+      availableRooms: total,
       imageUrl: url,
     });
     const savedRoom = await room.save();

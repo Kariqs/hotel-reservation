@@ -3,6 +3,31 @@
 
 <head>
     <%- include('../includes/head.ejs', { title: title }) %>
+        <style>
+            .toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                padding: 10px;
+                border-radius: 5px;
+                color: white;
+                opacity: 0.9;
+            }
+
+            .toast-success {
+                background-color: #38a169;
+            }
+
+            .toast-error {
+                background-color: #e53e3e;
+            }
+
+            .hidden {
+                display: none;
+            }
+        </style>
+        <script src="/js/book_room.js" defer></script>
 </head>
 
 <body class="w-screen h-screen flex flex-col bg-white font-myfont">
@@ -27,8 +52,7 @@
                         <%= room.roomtype %>
                     </span> Room
                 </h1>
-                <p
-                    class="text-start text-lg sm:text-xl lg:text-2xl text-gray-600 font-extralight mt-4">
+                <p class="text-start text-lg sm:text-xl lg:text-2xl text-gray-600 font-extralight mt-4">
                     Experience luxurious comfort in our <span>
                         <%= room.roomtype %>
                     </span> Room, featuring modern amenities, spacious interiors, and
@@ -39,6 +63,18 @@
                 <div class="mt-8">
                     <h2 class="text-center text-green-600 uppercase text-xl sm:text-2xl lg:text-3xl font-semibold mb-6">
                         Room Rates</h2>
+
+                    <!-- Available Rooms Section -->
+                    <div class="flex justify-center items-center mb-8">
+                        <div
+                            class="bg-white border shadow-md text-green-600 rounded-md p-4 w-full sm:w-4/5 lg:w-3/5 text-center">
+                            <p class="text-lg sm:text-2xl lg:text-3xl font-semibold uppercase">
+                                Available Rooms: <span class="font-bold">
+                                    <%= room.availableRooms %> Rooms
+                                </span>
+                            </p>
+                        </div>
+                    </div>
 
                     <div
                         class="flex flex-col sm:flex-row justify-center sm:justify-around items-center space-y-6 sm:space-y-0 sm:space-x-8">
@@ -96,8 +132,13 @@
                     <h2 class="text-center text-green-600 uppercase text-xl sm:text-2xl lg:text-3xl font-semibold mb-6">
                         Book Your Stay</h2>
 
-                    <form action="/book-room" method="POST"
+                    <form action="/book-room" id="bookRoomForm" method="POST"
                         class="w-full sm:w-4/5 lg:w-3/5 m-auto bg-white p-4 sm:p-6 rounded-md shadow-md">
+
+                        <!-- RoomType -->
+                        <input type="hidden" id="roomType" name="roomType" value="<%= room.roomtype %>" required
+                            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
+
                         <!-- Name -->
                         <div class="mb-6">
                             <label for="name" class="block text-gray-700 font-semibold mb-2">Full Name:</label>
@@ -122,8 +163,8 @@
                         <!-- Room Type (Single or Double) -->
                         <% if (room.doublePrice) { %>
                             <div class="mb-6">
-                                <label for="roomType" class="block text-gray-700 font-semibold mb-2">Room Type:</label>
-                                <select id="roomType" name="roomType" required
+                                <label for="type" class="block text-gray-700 font-semibold mb-2">Room Type:</label>
+                                <select id="type" name="type" required
                                     class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500">
                                     <option value="single">Single Occupancy</option>
                                     <option value="double">Double Occupancy</option>
@@ -131,19 +172,33 @@
                             </div>
                             <% } %>
 
+                                <!-- Number of rooms -->
+                                <div class="mb-6">
+                                    <label for="number" class="block text-gray-700 font-semibold mb-2">Number of
+                                        Rooms:</label>
+                                    <select id="number" name="number" required
+                                        class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500">
+                                        <% for (let i=1; i <=availableRooms; i++) { %>
+                                            <option value="<%= i %>">
+                                                <%= i %>
+                                            </option>
+                                            <% } %>
+                                    </select>
+                                </div>
+
                                 <!-- Arrival Date -->
                                 <div class="mb-6">
-                                    <label for="arrivalDate" class="block text-gray-700 font-semibold mb-2">Date of
+                                    <label for="arrival" class="block text-gray-700 font-semibold mb-2">Date of
                                         Arrival:</label>
-                                    <input type="date" id="arrivalDate" name="arrivalDate" required
+                                    <input type="date" id="arrival" name="arrival" required
                                         class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
                                 </div>
 
                                 <!-- Departure Date -->
                                 <div class="mb-6">
-                                    <label for="departureDate" class="block text-gray-700 font-semibold mb-2">Date of
+                                    <label for="departure" class="block text-gray-700 font-semibold mb-2">Date of
                                         Departure:</label>
-                                    <input type="date" id="departureDate" name="departureDate" required
+                                    <input type="date" id="departure" name="departure" required
                                         class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500" />
                                 </div>
 

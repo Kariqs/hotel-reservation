@@ -49,6 +49,7 @@ document
 
       if (response.ok) {
         showToast(result.message, "success");
+        this.reset()
       } else {
         showToast("Error adding room", "error");
       }
@@ -82,6 +83,7 @@ document
 
       if (response.ok) {
         showToast(result.message, "success");
+        this.reset()
       } else {
         showToast("Error adding conference room", "error");
       }

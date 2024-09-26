@@ -16,6 +16,9 @@ const roomsSchema = new Schema({
     type: Number,
     required: true,
   },
+  availableRooms: {
+    type: Number,
+  },
   imageUrl: {
     type: String,
     required: true,
