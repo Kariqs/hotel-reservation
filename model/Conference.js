@@ -22,6 +22,13 @@ const confSchema = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  },
+  bookingId: {
+    type: String,
+  },
 });
 
 const Conferences = mongoose.model("Conference", confSchema);

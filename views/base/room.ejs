@@ -3,30 +3,7 @@
 
 <head>
     <%- include('../includes/head.ejs', { title: title }) %>
-        <style>
-            .toast {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 9999;
-                padding: 10px;
-                border-radius: 5px;
-                color: white;
-                opacity: 0.9;
-            }
-
-            .toast-success {
-                background-color: #38a169;
-            }
-
-            .toast-error {
-                background-color: #e53e3e;
-            }
-
-            .hidden {
-                display: none;
-            }
-        </style>
+       <link rel="stylesheet" href="/css/toast.css">
         <script src="/js/book_room.js" defer></script>
 </head>
 

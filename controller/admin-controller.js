@@ -1,9 +1,16 @@
 import Rooms from "../model/Rooms.js";
 import Conferences from "../model/Conference.js";
+import BookRoom from "../model/BookRoom.js";
 export const getAdmin = async (req, res) => {
   try {
     const rooms = await Rooms.find();
-    res.render("admin/admin-dashboard", { rooms: rooms });
+    const bookedRooms = await BookRoom.find();
+    const conferenceRooms = await Conferences.find();
+    res.render("admin/admin-dashboard", {
+      rooms: rooms,
+      bookedRooms: bookedRooms,
+      conferenceRooms: conferenceRooms,
+    });
   } catch (error) {
     console.log("An error occured:" + error);
     res.status(500).json({ error: "Unabe to fetch the rooms." });

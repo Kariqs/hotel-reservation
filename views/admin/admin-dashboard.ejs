@@ -3,30 +3,7 @@
 
 <head>
     <%- include('../includes/head.ejs', { title: "Comfy Inn Admin Dashboard" }) %>
-        <style>
-            .toast {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 9999;
-                padding: 10px;
-                border-radius: 5px;
-                color: white;
-                opacity: 0.9;
-            }
-
-            .toast-success {
-                background-color: #38a169;
-            }
-
-            .toast-error {
-                background-color: #e53e3e;
-            }
-
-            .hidden {
-                display: none;
-            }
-        </style>
+        <link rel="stylesheet" href="/css/toast.css">
         <script src="/js/admin.js" defer></script>
 </head>
 
@@ -51,11 +28,25 @@
                         View All Rooms
                     </button>
                 </li>
+
+                <li>
+                    <button onclick="showSection('viewBookedRoomsSection')"
+                        class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
+                        View Booked Rooms
+                    </button>
+                </li>
+
                 <li>
                     <button onclick="showSection('conferenceSection')"
                         class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
                         Conference Rooms
                     </button>
+                </li>
+                <li></li>
+                <button onclick="showSection('viewHallsSection')"
+                    class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
+                    View All Conference Rooms
+                </button>
                 </li>
                 <li>
                     <button onclick="showSection('menuSection')"
@@ -132,7 +123,9 @@
                             <th class="p-2">Room Type</th>
                             <th class="p-2">Room Price</th>
                             <th class="p-2">Price for Two</th>
-                            <th class="p-2">Number of Rooms</th>
+                            <th class="p-2">Total Rooms</th>
+                            <th class="p-2">Available Rooms</th>
+                            <th class="p-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,75 +139,81 @@
                                 </td>
                                 <td class="p-2">Ksh <%= room.doublePrice || 'N/A' %>
                                 </td>
-                                <td class="p-2">Ksh <%= room.totalRooms %>
+                                <td class="p-2">
+                                    <%= room.totalRooms %>
                                 </td>
+                                <td class="p-2">
+                                    <%= room.availableRooms %>
+                                </td>
+                                <td class="p-2">
+                                    <button class="bg-green-600 text-white p-1 rounded-sm">Edit</button>
+                                    <button class="bg-red-600 text-white p-1 ml-1 rounded-sm">Delete</button>
+                                </td>
+
+
                             </tr>
                             <% }) %>
                     </tbody>
                 </table>
             </div>
         </section>
-        <!-- View All Rooms Section -->
-        <section id="viewRoomsSection" class="section hidden">
-            <h2 class="text-2xl font-semibold mb-6">All Rooms</h2>
+
+        <!-- View Booked Rooms Section -->
+        <section id="viewBookedRoomsSection" class="section hidden">
+            <h2 class="text-2xl font-semibold mb-6">Booked Rooms</h2>
             <div class="bg-white p-6 rounded-md shadow-md">
-                <h3 class="text-xl font-semibold mb-4">List of Available Rooms</h3>
+                <h3 class="text-xl font-semibold mb-4">List of Booked Rooms</h3>
                 <table class="w-full text-left">
-                    <thead class="bg-green-200">
+                    <thead class="w-full bg-green-200">
                         <tr>
                             <th class="p-2">Room Type</th>
-                            <th class="p-2">Room Price</th>
-                            <th class="p-2">Price for Two</th>
-                            <th class="p-2">Number of Rooms</th>
+                            <th class="p-2">Full Name</th>
+                            <th class="p-2">Occupancy</th>
+                            <th class="p-2">Rooms Booked</th>
+                            <th class="p-2">Arrival Date</th>
+                            <th class="p-2">Departure Date</th>
+                            <th class="p-2">Booking ID</th>
+                            <th class="p-2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Loop through existing rooms -->
-                        <% rooms.forEach(room=> { %>
-                            <tr class="border-b">
-                                <td class="p-2">
-                                    <%= room.roomtype %>
-                                </td>
-                                <td class="p-2">Ksh <%= room.singlePrice %>
-                                </td>
-                                <td class="p-2">Ksh <%= room.doublePrice || 'N/A' %>
-                                </td>
-                                <td class="p-2">Ksh <%= room.totalRooms %>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
-            </div>
-            <div class="bg-white p-6 rounded-md shadow-md">
-                <h3 class="text-xl font-semibold mb-4">List of Available Rooms</h3>
-                <table class="w-full text-left">
-                    <thead class="bg-green-200">
-                        <tr>
-                            <th class="p-2">Room Type</th>
-                            <th class="p-2">Room Price</th>
-                            <th class="p-2">Price for Two</th>
-                            <th class="p-2">Number of Rooms</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Loop through existing rooms -->
-                        <% rooms.forEach(room=> { %>
-                            <tr class="border-b">
-                                <td class="p-2">
-                                    <%= room.roomtype %>
-                                </td>
-                                <td class="p-2">Ksh <%= room.singlePrice %>
-                                </td>
-                                <td class="p-2">Ksh <%= room.doublePrice || 'N/A' %>
-                                </td>
-                                <td class="p-2"><%= room.totalRooms %></td>
-                            </tr>
-                            <% }) %>
+                        <% bookedRooms.forEach(room=> { %>
+                            <% function formatDate(dateString) { const options={ weekday: 'short' , year: 'numeric' ,
+                                month: 'short' , day: 'numeric' }; return new
+                                Date(dateString).toLocaleDateString('en-US', options); } %>
+                                <tr class="border-b">
+                                    <td class="p-2">
+                                        <%= room.roomType %> Room
+                                    </td>
+                                    <td class="p-2">
+                                        <%= room.name %>
+                                    </td>
+                                    <td class="p-2">
+                                        <%= room.type ||"N/A" %>
+                                    </td>
+                                    <td class="p-2">
+                                        <%= room.number %>
+                                    </td>
+                                    <td class="p-2">
+                                        <%= formatDate(room.arrival) %>
+                                    </td>
+                                    <td>
+                                        <%= formatDate(room.departure) %>
+                                    </td>
+                                    <td>
+                                        <%= room.bookingId %>
+                                    </td>
+                                    <td class="p-2">
+                                        <button class="bg-green-600 text-white p-1 rounded-sm">Checkout</button>
+                                    </td>
+                                </tr>
+                                <% }) %>
                     </tbody>
                 </table>
             </div>
         </section>
+
         <!-- Conference Room Management Section -->
         <section id="conferenceSection" class="section hidden">
             <h2 class="text-2xl font-semibold mb-6">Conference Room Management</h2>
@@ -229,25 +228,29 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="capacity" class="block text-lg font-medium text-gray-700">Conference Room Capacity</label>
+                        <label for="capacity" class="block text-lg font-medium text-gray-700">Conference Room
+                            Capacity</label>
                         <input type="number" id="capacity" name="capacity"
                             class="block w-full mt-2 border rounded-md p-2" required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="cost" class="block text-lg font-medium text-gray-700">Conference Room Charges</label>
+                        <label for="cost" class="block text-lg font-medium text-gray-700">Conference Room
+                            Charges</label>
                         <input type="number" id="cost" name="cost" class="block w-full mt-2 border rounded-md p-2"
                             required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="confdesc" class="block text-lg font-medium text-gray-700">Conference Room Description</label>
-                        <input type="text" id="confdesc" name="confdesc"
-                            class="block w-full mt-2 border rounded-md p-2" required>
+                        <label for="confdesc" class="block text-lg font-medium text-gray-700">Conference Room
+                            Description</label>
+                        <input type="text" id="confdesc" name="confdesc" class="block w-full mt-2 border rounded-md p-2"
+                            required>
                     </div>
 
                     <div class="mb-4">
-                        <label for="confImage" class="block text-lg font-medium text-gray-700">Conference Room Image Url</label>
+                        <label for="confImage" class="block text-lg font-medium text-gray-700">Conference Room Image
+                            Url</label>
                         <input type="text" id="confImage" name="confImage"
                             class="block w-full mt-2 border rounded-md p-2" required>
                     </div>
@@ -257,6 +260,51 @@
                             Room</button>
                     </div>
                 </form>
+            </div>
+        </section>
+
+        <!-- View All Rooms Section -->
+        <section id="viewHallsSection" class="section hidden">
+            <h2 class="text-2xl font-semibold mb-6">All Conference Rooms</h2>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <h3 class="text-xl font-semibold mb-4">List of All Conference Rooms</h3>
+                <table class="w-full text-left">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Room Name</th>
+                            <th class="p-2">Room Capacity</th>
+                            <th class="p-2">Room Charges</th>
+                            <th class="p-2">Room Status</th>
+                            <th class="p-2">Booking ID</th>
+                            <th class="p-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through existing rooms -->
+                        <% conferenceRooms.forEach(room=> { %>
+                            <tr class="border-b">
+                                <td class="p-2">
+                                    <%= room.name%>
+                                </td>
+                                <td class="p-2">
+                                    <%= room.capacity %>
+                                </td>
+                                <td class="p-2">
+                                    <%= room.charges%>
+                                </td>
+                                <td class="p-2">
+                                    <%= room.status %>
+                                </td>
+                                <td class="p-2">
+                                    <%= room.bookingId || "-" %>
+                                </td>
+                                <td class="p-2">
+                                    <button class="bg-green-600 text-white p-1 rounded-sm">Checkout</button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
             </div>
         </section>
 
