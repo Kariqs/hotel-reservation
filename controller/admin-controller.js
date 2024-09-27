@@ -72,6 +72,7 @@ export const addConferenceRoom = async (req, res) => {
       charges: charges,
       description: confdesc,
       imageUrl: url,
+      status: "Available",
     });
     const savedConference = await conference.save();
     res.status(201).json({
