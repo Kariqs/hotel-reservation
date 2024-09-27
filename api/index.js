@@ -5,6 +5,9 @@ import { fileURLToPath } from "url";
 import base_routes from "../routes/base-routes.js";
 import admin_routes from "../routes/admin-routes.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
@@ -37,3 +40,5 @@ async function startServer(port, mongo_uri) {
 }
 
 startServer(PORT, MONGODB_URL);
+
+export default app;
