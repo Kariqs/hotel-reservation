@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import MailGen from "mailgen";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 export const bookingEmail = async (email, name, intro, subject, action) => {
   const transporter = nodemailer.createTransport({

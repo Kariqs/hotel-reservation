@@ -2,8 +2,8 @@ import bodyParser from "body-parser";
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import base_routes from "./routes/base-routes.js";
-import admin_routes from "./routes/admin-routes.js";
+import base_routes from "../routes/base-routes.js";
+import admin_routes from "../routes/admin-routes.js";
 import mongoose from "mongoose";
 
 const app = express();

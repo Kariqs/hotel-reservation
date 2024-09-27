@@ -2,6 +2,7 @@ import Rooms from "../model/Rooms.js";
 import Conferences from "../model/Conference.js";
 import BookRoom from "../model/BookRoom.js";
 import randomatic from "randomatic";
+import { bookingEmail } from "../utils/sendmail.js";
 export const getDashboard = (req, res) => {
   res.render("base/dashboard");
 };
@@ -105,6 +106,15 @@ export const bookRoom = async (req, res) => {
     // Save the booking details to the database
     const bookedRoom = await bookRoom.save();
 
+    //send email with info
+    bookingEmail(
+      email,
+      name,
+      `You have successfully booked a stay with us. You booked ${roomsToBook} room(s).
+       Your booking code is ${bookingId}, keep this email and present the booking code at the reception when checking in.`,
+      "ROOM BOOKED SUCCESSFULLY",
+      null
+    );
     // Send the success response
     res.status(201).json({
       message: "Room booked successfully. Check your email for more info.",

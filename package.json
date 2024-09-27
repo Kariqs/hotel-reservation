@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run tailwind\"",
-    "server": "nodemon app.js",
+    "server": "nodemon api/index.js",
     "tailwind": "npx tailwindcss -i ./public/css/tailwind-input.css -o ./public/css/main.css --watch"
   },
   "repository": {
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Kariqs/hotel-reservation#readme",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "mailgen": "^2.0.28",
