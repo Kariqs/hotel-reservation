@@ -40,7 +40,6 @@ export const bookingEmail = async (email, name, intro, subject, action) => {
 
   try {
     await transporter.sendMail(message);
-    console.log("Email sent.");
   } catch (err) {
     console.log(err);
   }

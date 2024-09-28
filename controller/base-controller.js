@@ -1,6 +1,7 @@
 import Rooms from "../model/Rooms.js";
 import Conferences from "../model/Conference.js";
 import BookRoom from "../model/BookRoom.js";
+import BookConference from "../model/BookConference.js";
 import randomatic from "randomatic";
 import { bookingEmail } from "../utils/sendmail.js";
 export const getDashboard = (req, res) => {
@@ -97,14 +98,14 @@ export const bookRoom = async (req, res) => {
       bookingId: bookingId,
     });
 
+    // Save the booking details to the database
+    const bookedRoom = await bookRoom.save();
+
     // Subtract the booked rooms from available rooms
     rooms.availableRooms = rooms.availableRooms - roomsToBook;
 
     // Save the room with the updated availability
     await rooms.save();
-
-    // Save the booking details to the database
-    const bookedRoom = await bookRoom.save();
 
     //send email with info
     bookingEmail(
@@ -123,5 +124,63 @@ export const bookRoom = async (req, res) => {
   } catch (error) {
     console.log("Error:", error);
     res.status(500).json({ error: "Failed to book room." });
+  }
+};
+
+export const bookConference = async (req, res) => {
+  const {
+    roomName,
+    arrivalDate,
+    departureDate,
+    checkinTime,
+    checkoutTime,
+    organisationName,
+    email,
+  } = req.body;
+  try {
+    const room = await Conferences.findOne({ name: roomName });
+    if (!room) {
+      return res.status(400).json({ message: "Room not found!" });
+    }
+    if (room.status === "Booked") {
+      return res.status(400).json({
+        message: "This room is already booked.",
+      });
+    }
+    const bookingId = randomatic("A0", 8);
+    const bookConferenceRoom = new BookConference({
+      roomName: roomName,
+      arrivalDate: arrivalDate,
+      departureDate: departureDate,
+      checkinTime: checkinTime,
+      checkoutTime: checkoutTime,
+      organisationName: organisationName,
+      email: email,
+      bookingId: bookingId,
+    });
+    const bookedConferenceRoom = await bookConferenceRoom.save();
+    if(!bookConferenceRoom){
+      return res.status(400).json({
+        message: "An error occured, contact system admin.",
+      });
+    }
+    room.status = "Booked";
+    await room.save();
+    bookingEmail(
+      email,
+      organisationName,
+      `You have successfully booked a conference room with us.
+       Your booking code is ${bookingId}, keep this email and present the booking code at the reception when checking in.`,
+      "CONFERENCE ROOM BOOKED SUCCESSFULLY",
+      null
+    );
+    res.status(201).json({
+      message:
+        "Conference room booked successfully. Check your email for more info.",
+      bookedConferenceRoom: bookedConferenceRoom,
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    res.status(500).json({ error: "Failed to book conference room." });
   }
 };
