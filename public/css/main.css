@@ -580,10 +580,6 @@ video {
   margin: auto;
 }
 
-.m-4{
-  margin: 1rem;
-}
-
 .mb-2{
   margin-bottom: 0.5rem;
 }
@@ -1097,10 +1093,6 @@ video {
 
   .sm\:mt-44{
     margin-top: 11rem;
-  }
-
-  .sm\:mt-6{
-    margin-top: 1.5rem;
   }
 
   .sm\:block{

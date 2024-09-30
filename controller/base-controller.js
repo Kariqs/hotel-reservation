@@ -4,6 +4,7 @@ import BookRoom from "../model/BookRoom.js";
 import BookConference from "../model/BookConference.js";
 import randomatic from "randomatic";
 import { bookingEmail } from "../utils/sendmail.js";
+import Transaction from "../model/Transaction.js";
 export const getDashboard = (req, res) => {
   res.render("base/dashboard");
 };
@@ -159,12 +160,8 @@ export const bookConference = async (req, res) => {
       bookingId: bookingId,
     });
     const bookedConferenceRoom = await bookConferenceRoom.save();
-    if(!bookConferenceRoom){
-      return res.status(400).json({
-        message: "An error occured, contact system admin.",
-      });
-    }
     room.status = "Booked";
+    room.bookingId = bookingId;
     await room.save();
     bookingEmail(
       email,
@@ -182,5 +179,35 @@ export const bookConference = async (req, res) => {
   } catch (error) {
     console.log("Error:", error);
     res.status(500).json({ error: "Failed to book conference room." });
+  }
+};
+
+export const callbackUrl = async (req, res) => {
+  // Callback URL route
+  const transactionData = req.body;
+  console.log("Transaction Data:", transactionData);
+  // Create a new transaction document
+  const newTransaction = new Transaction({
+    transactionType: transactionData.TransactionType,
+    transactionID: transactionData.TransactionID,
+    transTime: transactionData.TransTime,
+    businessShortCode: transactionData.BusinessShortCode,
+    billRefNumber: transactionData.BillRefNumber,
+    invoiceNumber: transactionData.InvoiceNumber,
+    orgAccountBalance: transactionData.OrgAccountBalance,
+    thirdPartyTransID: transactionData.ThirdPartyTransID,
+    transactionAmount: transactionData.TransactionAmount,
+    phoneNumber: transactionData.PhoneNumber,
+    status: transactionData.Status, // Assuming you get this field from the callback
+  });
+
+  try {
+    // Save the transaction to MongoDB
+    await newTransaction.save();
+    console.log("Transaction saved successfully:", newTransaction);
+    res.status(200).send("Received"); // Acknowledge receipt of the callback
+  } catch (error) {
+    console.error("Error saving transaction:", error.message);
+    res.status(500).send("Error saving transaction"); // Handle errors gracefully
   }
 };
