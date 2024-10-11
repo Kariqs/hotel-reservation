@@ -49,16 +49,16 @@ document
 
       if (response.ok) {
         showToast(result.message, "success");
-        this.reset()
+        this.reset();
       } else {
-        showToast("Error adding room", "error");
+        showToast(result.message, "error");
       }
     } catch (error) {
       console.log("An error occured:", error);
     }
   });
 
-//Submit room data
+//Submit conference room data
 document
   .getElementById("confForm")
   .addEventListener("submit", async function (e) {
@@ -68,7 +68,7 @@ document
       confname: formData.get("confname"),
       capacity: formData.get("capacity"),
       charges: formData.get("cost"),
-      confdesc:formData.get("confdesc"),
+      confdesc: formData.get("confdesc"),
       url: formData.get("confImage"),
     };
     try {
@@ -83,9 +83,41 @@ document
 
       if (response.ok) {
         showToast(result.message, "success");
-        this.reset()
+        this.reset();
       } else {
-        showToast("Error adding conference room", "error");
+        showToast(result.message, "error");
+      }
+    } catch (error) {
+      console.log("An error occured:", error);
+    }
+  });
+
+//submit menuItem data
+document
+  .getElementById("menuForm")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = {
+      name: formData.get("name"),
+      price: formData.get("price"),
+      imageUrl: formData.get("imageUrl"),
+    };
+    try {
+      const response = await fetch("/admin/menu/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        showToast(result.message, "success");
+        this.reset();
+      } else {
+        showToast(result.message, "error");
       }
     } catch (error) {
       console.log("An error occured:", error);

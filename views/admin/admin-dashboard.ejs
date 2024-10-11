@@ -25,33 +25,43 @@
                 <li>
                     <button onclick="showSection('viewRoomsSection')"
                         class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
-                        View All Rooms
+                        All Rooms
                     </button>
                 </li>
-
                 <li>
                     <button onclick="showSection('viewBookedRoomsSection')"
                         class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
-                        View Booked Rooms
+                        Booked Rooms
                     </button>
                 </li>
-
                 <li>
                     <button onclick="showSection('conferenceSection')"
                         class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
-                        Conference Rooms
+                        Add Conference Room
                     </button>
                 </li>
-                <li></li>
-                <button onclick="showSection('viewHallsSection')"
-                    class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
-                    View All Conference Rooms
-                </button>
+                <li>
+                    <button onclick="showSection('viewHallsSection')"
+                        class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
+                        All Conference Rooms
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('bookedHalls')"
+                        class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
+                        Booked Conference Rooms
+                    </button>
                 </li>
                 <li>
                     <button onclick="showSection('menuSection')"
                         class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
-                        Menu Management
+                        Menu Items Management
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('viewMenuSection')"
+                        class="w-full text-left px-6 py-4 hover:bg-green-700 focus:bg-green-800">
+                        View Available Menu Items
                     </button>
                 </li>
             </ul>
@@ -308,15 +318,64 @@
             </div>
         </section>
 
+        <!-- View Booked Halls Section -->
+        <section id="bookedHalls" class="section hidden">
+            <h2 class="text-2xl font-semibold mb-6">Booked Conference Rooms</h2>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <h3 class="text-xl font-semibold mb-4">List of Booked Conference Rooms</h3>
+                <table class="w-full text-left">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Organisation Name</th>
+                            <th class="p-2">Arrival Date</th>
+                            <th class="p-2">Departure Date</th>
+                            <th class="p-2">Checkin Time</th>
+                            <th class="p-2">Checkout Time</th>
+                            <th class="p-2">Booking ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through existing rooms -->
+                        <% bookedConference.forEach(room=> { %>
+                            <% function formatDate(dateString) { const options={ weekday: 'short' , year: 'numeric' ,
+                                month: 'short' , day: 'numeric' }; return new
+                                Date(dateString).toLocaleDateString('en-US', options); } %>
+                                <tr class="border-b">
+                                    <td class="p-2">
+                                        <%= room.organisationName%>
+                                    </td>
+                                    <td class="p-2">
+                                        <%=formatDate( room.arrivalDate) %>
+                                    </td>
+                                    <td class="p-2">
+                                        <%= formatDate(room.departureDate)%>
+                                    </td>
+                                    <td class="p-2">
+                                        <%= room.checkinTime %> HRS
+                                    </td>
+                                    <td class="p-2">
+                                        <%= room.checkoutTime %> HRS
+                                    </td>
+                                    <td class="p-2">
+                                        <%= room.bookingId || "-" %>
+                                    </td>
+
+                                </tr>
+                                <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- Menu Management Section -->
         <section id="menuSection" class="section hidden">
             <h2 class="text-2xl font-semibold mb-6">Menu Management</h2>
             <div class="bg-white p-6 rounded-md shadow-md">
                 <h3 class="text-xl font-semibold mb-4">Add Menu Item</h3>
-                <form action="/admin/menu/add" method="POST">
+                <form id="menuForm" action="/admin/menu/add" method="POST">
                     <div class="mb-4">
-                        <label for="menuItem" class="block text-lg font-medium text-gray-700">Menu Item Name</label>
-                        <input type="text" id="menuItem" name="menuItem" class="block w-full mt-2 border rounded-md p-2"
+                        <label for="name" class="block text-lg font-medium text-gray-700">Menu Item Name</label>
+                        <input type="text" id="name" name="name" class="block w-full mt-2 border rounded-md p-2"
                             required>
                     </div>
 
@@ -326,11 +385,56 @@
                             required>
                     </div>
 
+                    <div class="mb-4">
+                        <label for="imageUrl" class="block text-lg font-medium text-gray-700">Item Image Url</label>
+                        <input type="text" id="imageUrl" name="imageUrl" class="block w-full mt-2 border rounded-md p-2"
+                            required>
+                    </div>
+
                     <div class="mt-6">
                         <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md">Add Menu
                             Item</button>
                     </div>
                 </form>
+            </div>
+        </section>
+
+        <!-- View Booked Halls Section -->
+        <section id="viewMenuSection" class="section hidden">
+            <h2 class="text-2xl font-semibold mb-6">Available Delicacies</h2>
+            <div class="bg-white p-6 rounded-md shadow-md">
+                <h3 class="text-xl font-semibold mb-4">List of Available Delicacies</h3>
+                <table class="w-full text-left">
+                    <thead class="bg-green-200">
+                        <tr>
+                            <th class="p-2">Item Name</th>
+                            <th class="p-2">Item Price</th>
+                            <th class="p-2">Item Image</th>
+                            <th class="p-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through existing rooms -->
+                        <% menuItems.forEach(menuItem=> { %>
+                            <tr class="border-b">
+                                <td class="p-2">
+                                    <%= menuItem.itemName%>
+                                </td>
+
+                                <td class="p-2">
+                                    KES.<%= menuItem.itemPrice %>
+                                </td>
+                                <td class="p-2">
+                                    <img class="w-12" src="<%= menuItem.itemImageUrl %>" alt="<%= menuItem.itemName %>">
+                                </td>
+                                <td class="p-2">
+                                    <button class="bg-green-600 text-white p-1 rounded-sm">Edit</button>
+                                    <button class="bg-red-600 text-white p-1 ml-1 rounded-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
