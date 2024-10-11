@@ -720,6 +720,14 @@ video {
   width: 100vw;
 }
 
+.w-auto{
+  width: auto;
+}
+
+.w-4{
+  width: 1rem;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }
